@@ -1,0 +1,248 @@
+{
+	"name": "UnionizingData",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureCountrySink",
+						"type": "DatasetReference"
+					},
+					"name": "AzureCountrySource"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureCovid_19MetricsSink",
+						"type": "DatasetReference"
+					},
+					"name": "AzureCovid19MetricsSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureDatesSink",
+						"type": "DatasetReference"
+					},
+					"name": "AzureDatesSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "VMCountrySink",
+						"type": "DatasetReference"
+					},
+					"name": "VMCountrySource"
+				},
+				{
+					"dataset": {
+						"referenceName": "VMCovid19_MetricsSink",
+						"type": "DatasetReference"
+					},
+					"name": "VMCovid19MetricsSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "VMDatesSink",
+						"type": "DatasetReference"
+					},
+					"name": "VMDatesSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DataAggregateSink",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ACSource"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "AC19MSource"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "ADSource"
+				},
+				{
+					"name": "select3"
+				},
+				{
+					"name": "VMCSource"
+				},
+				{
+					"name": "select4"
+				},
+				{
+					"name": "VMC19MSource"
+				},
+				{
+					"name": "VMDSource"
+				},
+				{
+					"name": "select5"
+				},
+				{
+					"name": "select6"
+				},
+				{
+					"name": "union1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Country as string,",
+				"          CountryCode as string,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> AzureCountrySource",
+				"source(output(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Confirmed as integer,",
+				"          Confirmed_Change as integer,",
+				"          Deaths as integer,",
+				"          Deaths_Change as integer,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5),",
+				"          ISO2 as string,",
+				"          ISO3 as string,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> AzureCovid19MetricsSource",
+				"source(output(",
+				"          DateKey as integer,",
+				"          FullDate as date,",
+				"          isWeekDay as boolean,",
+				"          DayOfWeek as integer,",
+				"          DayOfMonth as integer,",
+				"          DayOfQuarter as integer,",
+				"          DayOfYear as integer,",
+				"          DayName as string,",
+				"          WeekOfYear as integer,",
+				"          WeekName as string,",
+				"          MonthOfYear as integer,",
+				"          MonthName as string,",
+				"          CalendarQuarter as integer,",
+				"          CalendarQuarterName as string,",
+				"          CalendarYear as integer,",
+				"          FiscalMonth as integer,",
+				"          FiscalMonthName as string,",
+				"          FiscalQuarter as integer,",
+				"          FiscalQuarterName as string,",
+				"          FiscalYear as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> AzureDatesSource",
+				"source(output(",
+				"          Country as string,",
+				"          CountryCode as string,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> VMCountrySource",
+				"source(output(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Confirmed as integer,",
+				"          Confirmed_Change as integer,",
+				"          Deaths as integer,",
+				"          Deaths_Change as integer,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5),",
+				"          ISO2 as string,",
+				"          ISO3 as string,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> VMCovid19MetricsSource",
+				"source(output(",
+				"          DateKey as integer,",
+				"          FullDate as date,",
+				"          isWeekDay as boolean,",
+				"          DayOfWeek as integer,",
+				"          DayOfMonth as integer,",
+				"          DayOfQuarter as integer,",
+				"          DayOfYear as integer,",
+				"          DayName as string,",
+				"          WeekOfYear as integer,",
+				"          WeekName as string,",
+				"          MonthOfYear as integer,",
+				"          MonthName as string,",
+				"          CalendarQuarter as integer,",
+				"          CalendarQuarterName as string,",
+				"          CalendarYear as integer,",
+				"          FiscalMonth as integer,",
+				"          FiscalMonthName as string,",
+				"          FiscalQuarter as integer,",
+				"          FiscalQuarterName as string,",
+				"          FiscalYear as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> VMDatesSource",
+				"AzureCountrySource derive(Country = Country,",
+				"          CountryCode = CountryCode,",
+				"          Latitude = Latitude,",
+				"          Longitude = Longitude) ~> ACSource",
+				"ACSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"AzureCovid19MetricsSource derive(ID = ID,",
+				"          Updated = Updated,",
+				"          Confirmed = Confirmed) ~> AC19MSource",
+				"AC19MSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"AzureDatesSource derive(DateKey = DateKey) ~> ADSource",
+				"ADSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"VMCountrySource derive(Country = Country) ~> VMCSource",
+				"VMCSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4",
+				"VMCovid19MetricsSource derive(ID = ID) ~> VMC19MSource",
+				"VMDatesSource derive(DateKey = DateKey) ~> VMDSource",
+				"VMC19MSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select5",
+				"VMDSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select6",
+				"select1, select2, select3, select4, select5, select6 union(byName: true)~> union1",
+				"union1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
