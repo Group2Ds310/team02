@@ -1216,6 +1216,48 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "UnionizingData",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Azure Dates",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UnionizingData",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AzureCountrySource": {},
+									"AzureCovid19MetricsSource": {},
+									"AzureDatesSource": {},
+									"VMCountrySource": {},
+									"VMCovid19MetricsSource": {},
+									"VMDatesSource": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -1226,7 +1268,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSource')]",
-				"[concat(variables('factoryId'), '/datasets/VMDatesSource')]"
+				"[concat(variables('factoryId'), '/datasets/VMDatesSource')]",
+				"[concat(variables('factoryId'), '/dataflows/UnionizingData')]"
 			]
 		}
 	]
