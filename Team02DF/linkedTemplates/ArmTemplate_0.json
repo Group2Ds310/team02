@@ -539,7 +539,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileSystem": "UnionizedData"
+						"fileSystem": "uniondata"
 					},
 					"compressionCodec": "snappy"
 				},
