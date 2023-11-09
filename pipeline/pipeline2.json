@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "UnionizingData",
+				"name": "casesflow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "UnionizingData",
+						"referenceName": "casesflow",
 						"type": "DataFlowReference"
 					},
 					"compute": {

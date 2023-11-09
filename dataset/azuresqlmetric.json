@@ -1,0 +1,16 @@
+{
+	"name": "azuresqlmetric",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "azuresqlcovid",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Covid19_Metrics"
+		}
+	}
+}
