@@ -30,6 +30,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "cases.parquet",
 						"fileSystem": "uniondata"
 					},
 					"compressionCodec": "snappy"
