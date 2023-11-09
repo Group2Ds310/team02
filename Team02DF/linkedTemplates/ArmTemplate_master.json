@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'credential' of 'Team2_GitHub'"
 		},
+		"azuresqlcovid_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'azuresqlcovid'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://team02sa.dfs.core.windows.net/"
@@ -81,8 +85,8 @@
 					"Team2_GitHub_credential": {
 						"value": "[parameters('Team2_GitHub_credential')]"
 					},
-					"SqlServer1_connectionString": {
-						"value": "[parameters('SqlServer1_connectionString')]"
+					"azuresqlcovid_connectionString": {
+						"value": "[parameters('azuresqlcovid_connectionString')]"
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
@@ -107,6 +111,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
 					}
 				}
 			},

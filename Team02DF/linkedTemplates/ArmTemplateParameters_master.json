@@ -23,6 +23,9 @@
 		"Team2_GitHub_credential": {
 			"value": ""
 		},
+		"azuresqlcovid_connectionString": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://team02sa.dfs.core.windows.net/"
 		},
