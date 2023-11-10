@@ -1,5 +1,5 @@
 {
-	"name": "VMCountrySink",
+	"name": "ParquetVMCountry",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

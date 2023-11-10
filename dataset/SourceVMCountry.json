@@ -1,5 +1,5 @@
 {
-	"name": "VMCountrySource",
+	"name": "SourceVMCountry",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer1",

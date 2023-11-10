@@ -1,5 +1,5 @@
 {
-	"name": "AzureCovid_19MetricsSink",
+	"name": "ParquetAZMetrics",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

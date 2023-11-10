@@ -1,5 +1,5 @@
 {
-	"name": "VMDatesSink",
+	"name": "ParquetVMDates",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

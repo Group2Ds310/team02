@@ -48,13 +48,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "VMCountrySource",
+						"referenceName": "SourceVMCountry",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "VMCountrySink",
+						"referenceName": "ParquetVMCountry",
 						"type": "DatasetReference"
 					}
 				]
@@ -105,13 +105,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "VMCovid19_MetricsSource",
+						"referenceName": "SourceVMMetrics",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "VMCovid19_MetricsSink",
+						"referenceName": "ParquetVMMetrics",
 						"type": "DatasetReference"
 					}
 				]
@@ -162,13 +162,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "VMDatesSource",
+						"referenceName": "SourceVMDates",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "VMDatesSink",
+						"referenceName": "ParquetVMDates",
 						"type": "DatasetReference"
 					}
 				]
@@ -674,13 +674,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "CosmosDBSource",
+						"referenceName": "SourceCDBPolicy",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "CosmosDBSink",
+						"referenceName": "ParquestCDBPolicy",
 						"type": "DatasetReference"
 					}
 				]
@@ -731,13 +731,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureCountrySource",
+						"referenceName": "SourceAZCountry",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureCountrySink",
+						"referenceName": "ParquetAZCountry",
 						"type": "DatasetReference"
 					}
 				]
@@ -788,13 +788,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureCovid_19MetricsSource",
+						"referenceName": "SourceAZMetrics",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureCovid_19MetricsSink",
+						"referenceName": "ParquetAZMetrics",
 						"type": "DatasetReference"
 					}
 				]
@@ -845,13 +845,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureDatesSource",
+						"referenceName": "SourceAZDates",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureDatesSink",
+						"referenceName": "ParquetAZDates",
 						"type": "DatasetReference"
 					}
 				]

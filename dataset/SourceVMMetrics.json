@@ -1,5 +1,5 @@
 {
-	"name": "VMCovid19_MetricsSource",
+	"name": "SourceVMMetrics",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer1",

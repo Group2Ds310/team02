@@ -6,42 +6,42 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureCountrySink",
+						"referenceName": "ParquetAZCountry",
 						"type": "DatasetReference"
 					},
 					"name": "AzureCountrySource"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureCovid_19MetricsSink",
+						"referenceName": "ParquetAZMetrics",
 						"type": "DatasetReference"
 					},
 					"name": "AzureCovid19MetricsSource"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureDatesSink",
+						"referenceName": "ParquetAZDates",
 						"type": "DatasetReference"
 					},
 					"name": "AzureDatesSource"
 				},
 				{
 					"dataset": {
-						"referenceName": "VMCountrySink",
+						"referenceName": "ParquetVMCountry",
 						"type": "DatasetReference"
 					},
 					"name": "VMCountrySource"
 				},
 				{
 					"dataset": {
-						"referenceName": "VMCovid19_MetricsSink",
+						"referenceName": "ParquetVMMetrics",
 						"type": "DatasetReference"
 					},
 					"name": "VMCovid19MetricsSource"
 				},
 				{
 					"dataset": {
-						"referenceName": "VMDatesSink",
+						"referenceName": "ParquetVMDates",
 						"type": "DatasetReference"
 					},
 					"name": "VMDatesSource"
@@ -50,7 +50,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DataAggregateSink",
+						"referenceName": "ParquetAllData",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"

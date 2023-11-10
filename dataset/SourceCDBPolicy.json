@@ -1,5 +1,5 @@
 {
-	"name": "CosmosDBSource",
+	"name": "SourceCDBPolicy",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "CosmosDbNoSql1",

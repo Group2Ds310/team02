@@ -6,14 +6,14 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureDatesSink",
+						"referenceName": "ParquetAZDates",
 						"type": "DatasetReference"
 					},
 					"name": "AzureDates"
 				},
 				{
 					"dataset": {
-						"referenceName": "VMDatesSink",
+						"referenceName": "ParquetVMDates",
 						"type": "DatasetReference"
 					},
 					"name": "VMDates"

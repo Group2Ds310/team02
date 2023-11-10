@@ -1,5 +1,5 @@
 {
-	"name": "AzureCovid_19MetricsSource",
+	"name": "SourceAZMetrics",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",

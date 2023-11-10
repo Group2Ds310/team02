@@ -1,5 +1,5 @@
 {
-	"name": "DataAggregateSink",
+	"name": "ParquetAllData",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

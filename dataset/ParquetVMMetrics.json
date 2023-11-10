@@ -1,5 +1,5 @@
 {
-	"name": "VMCovid19_MetricsSink",
+	"name": "ParquetVMMetrics",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

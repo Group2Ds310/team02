@@ -1,5 +1,5 @@
 {
-	"name": "CosmosDBSink",
+	"name": "ParquestCDBPolicy",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

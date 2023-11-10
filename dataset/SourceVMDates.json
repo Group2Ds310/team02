@@ -1,5 +1,5 @@
 {
-	"name": "VMDatesSource",
+	"name": "SourceVMDates",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer1",

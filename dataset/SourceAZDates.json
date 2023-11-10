@@ -1,5 +1,5 @@
 {
-	"name": "AzureDatesSource",
+	"name": "SourceAZDates",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",
