@@ -849,7 +849,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileSystem": "azuresql"
+						"fileSystem": "uniondata"
 					},
 					"compressionCodec": "snappy"
 				},
