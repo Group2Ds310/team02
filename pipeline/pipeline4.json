@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Recoveriesflow",
+						"referenceName": "datesflow",
 						"type": "DataFlowReference"
 					},
 					"compute": {
