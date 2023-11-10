@@ -181,11 +181,13 @@
 				"          FiscalYear as integer",
 				"     ),",
 				"     format: 'parquet',",
+				"     partitionFileNames:['Cases'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> CasesSink",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> CasesSink",
 				"SelectDeaths sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -201,6 +203,7 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     format: 'parquet',",
+				"     partitionFileNames:['Deaths'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
@@ -221,11 +224,13 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     format: 'parquet',",
+				"     partitionFileNames:['Recoveries'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> RecoveriesSink"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> RecoveriesSink"
 			]
 		}
 	}
