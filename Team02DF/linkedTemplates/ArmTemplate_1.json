@@ -634,7 +634,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "CasesDataFlowSink",
+								"referenceName": "ODSCases",
 								"type": "DatasetReference"
 							},
 							"name": "CasesSink"
@@ -1134,7 +1134,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "CasesDataFlowSink",
+								"referenceName": "ODSCases",
 								"type": "DatasetReference"
 							},
 							"name": "casessink"

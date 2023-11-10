@@ -1172,7 +1172,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CasesDataFlowSink')]",
+			"name": "[concat(parameters('factoryName'), '/ODSCases')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2557,7 +2557,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "CasesDataFlowSink",
+								"referenceName": "ODSCases",
 								"type": "DatasetReference"
 							},
 							"name": "CasesSink"
@@ -2773,7 +2773,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
 				"[concat(variables('factoryId'), '/datasets/ParquetAZMetrics')]",
-				"[concat(variables('factoryId'), '/datasets/CasesDataFlowSink')]",
+				"[concat(variables('factoryId'), '/datasets/ODSCases')]",
 				"[concat(variables('factoryId'), '/datasets/ODSDeaths')]",
 				"[concat(variables('factoryId'), '/datasets/ODSRecoveries')]"
 			]
@@ -3065,7 +3065,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "CasesDataFlowSink",
+								"referenceName": "ODSCases",
 								"type": "DatasetReference"
 							},
 							"name": "casessink"
@@ -3181,7 +3181,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ParquetAZMetrics')]",
 				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
-				"[concat(variables('factoryId'), '/datasets/CasesDataFlowSink')]"
+				"[concat(variables('factoryId'), '/datasets/ODSCases')]"
 			]
 		},
 		{
