@@ -963,7 +963,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AzureCovid_19MetricsSource",
+								"referenceName": "AzureCovid_19MetricsSink",
 								"type": "DatasetReference"
 							},
 							"name": "AZRecoveries"
@@ -1016,8 +1016,8 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table',",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> AZRecoveries",
 						"source(output(",
 						"          Country as string,",
@@ -1344,7 +1344,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "azuresqlmetric",
+								"referenceName": "cases",
 								"type": "DatasetReference"
 							},
 							"name": "azuresqlmetrics"
@@ -1381,10 +1381,6 @@
 						"          Updated as date,",
 						"          Confirmed as integer,",
 						"          Confirmed_Change as integer,",
-						"          Deaths as integer,",
-						"          Deaths_Change as integer,",
-						"          Recovered as integer,",
-						"          Recovered_Change as integer,",
 						"          Latitude as decimal(10,5),",
 						"          Longitude as decimal(10,5),",
 						"          ISO2 as string,",
@@ -1394,8 +1390,8 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table',",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> azuresqlmetrics",
 						"source(output(",
 						"          ID as integer,",
@@ -1485,7 +1481,6 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/azuresqlmetric')]",
 				"[concat(variables('factoryId'), '/datasets/cases')]"
 			]
 		},
@@ -1506,7 +1501,7 @@
 						},
 						{
 							"dataset": {
-								"referenceName": "AzureDatesSource",
+								"referenceName": "AzureDatesSink",
 								"type": "DatasetReference"
 							},
 							"name": "source2"
@@ -1558,15 +1553,31 @@
 						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> source1",
 						"source(output(",
-						"          Country as string,",
-						"          CountryCode as string,",
-						"          Latitude as decimal(10,5),",
-						"          Longitude as decimal(10,5)",
+						"          DateKey as integer,",
+						"          FullDate as date,",
+						"          isWeekDay as boolean,",
+						"          DayOfWeek as integer,",
+						"          DayOfMonth as integer,",
+						"          DayOfQuarter as integer,",
+						"          DayOfYear as integer,",
+						"          DayName as string,",
+						"          WeekOfYear as integer,",
+						"          WeekName as string,",
+						"          MonthOfYear as integer,",
+						"          MonthName as string,",
+						"          CalendarQuarter as integer,",
+						"          CalendarQuarterName as string,",
+						"          CalendarYear as integer,",
+						"          FiscalMonth as integer,",
+						"          FiscalMonthName as string,",
+						"          FiscalQuarter as integer,",
+						"          FiscalQuarterName as string,",
+						"          FiscalYear as integer",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table',",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> source2",
 						"source1, source2 union(byName: true,",
 						"     partitionBy('hash', 1))~> union1",
@@ -1754,7 +1765,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "AzureCountrySource",
+								"referenceName": "AzureCountrySink",
 								"type": "DatasetReference"
 							},
 							"name": "AZgeography"
@@ -1793,10 +1804,16 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table',",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> AZgeography",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
