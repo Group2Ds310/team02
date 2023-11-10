@@ -961,8 +961,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"azuresqlmetrics": {},
-									"vmazuremetrics": {},
+									"AzureMetrics": {},
+									"VMMetrics": {},
 									"casessink": {}
 								}
 							},
@@ -1007,8 +1007,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"vmcovidmetrics": {},
-									"sqlcovidmetrics": {},
+									"VMMetrics": {},
+									"AzureMetrics": {},
 									"deathssink": {}
 								}
 							},
@@ -1053,8 +1053,8 @@
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"source1": {},
-									"source2": {},
+									"AzureDates": {},
+									"VMDates": {},
 									"sink1": {}
 								}
 							},

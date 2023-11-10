@@ -17,6 +17,141 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/GeographyDataFlowSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "uniondata"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "ID",
+						"type": "INT32"
+					},
+					{
+						"name": "Updated",
+						"type": "DATE"
+					},
+					{
+						"name": "Confirmed",
+						"type": "INT32"
+					},
+					{
+						"name": "Confirmed_Change",
+						"type": "INT32"
+					},
+					{
+						"name": "Latitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "ISO2",
+						"type": "UTF8"
+					},
+					{
+						"name": "ISO3",
+						"type": "UTF8"
+					},
+					{
+						"name": "Country_Region",
+						"type": "UTF8"
+					},
+					{
+						"name": "load_time",
+						"type": "INT96"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RecoveriesDataFlowSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Recoveries.parquet",
+						"fileSystem": "uniondata"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "ID",
+						"type": "INT32"
+					},
+					{
+						"name": "Updated",
+						"type": "DATE"
+					},
+					{
+						"name": "Confirmed",
+						"type": "INT32"
+					},
+					{
+						"name": "Confirmed_Change",
+						"type": "INT32"
+					},
+					{
+						"name": "Latitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "ISO2",
+						"type": "UTF8"
+					},
+					{
+						"name": "ISO3",
+						"type": "UTF8"
+					},
+					{
+						"name": "Country_Region",
+						"type": "UTF8"
+					},
+					{
+						"name": "load_time",
+						"type": "INT96"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/VMCountrySink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -147,178 +282,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/cases')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "cases.parquet",
-						"fileSystem": "uniondata"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "Country",
-						"type": "UTF8"
-					},
-					{
-						"name": "CountryCode",
-						"type": "UTF8"
-					},
-					{
-						"name": "Latitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "Longitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "ID",
-						"type": "INT32"
-					},
-					{
-						"name": "Updated",
-						"type": "DATE"
-					},
-					{
-						"name": "Confirmed",
-						"type": "INT32"
-					},
-					{
-						"name": "Confirmed_Change",
-						"type": "INT32"
-					},
-					{
-						"name": "Deaths",
-						"type": "INT32"
-					},
-					{
-						"name": "Deaths_Change",
-						"type": "INT32"
-					},
-					{
-						"name": "Recovered",
-						"type": "INT32"
-					},
-					{
-						"name": "Recovered_Change",
-						"type": "INT32"
-					},
-					{
-						"name": "ISO2",
-						"type": "UTF8"
-					},
-					{
-						"name": "ISO3",
-						"type": "UTF8"
-					},
-					{
-						"name": "Country_Region",
-						"type": "UTF8"
-					},
-					{
-						"name": "load_time",
-						"type": "INT96"
-					},
-					{
-						"name": "DateKey",
-						"type": "INT32"
-					},
-					{
-						"name": "FullDate",
-						"type": "DATE"
-					},
-					{
-						"name": "isWeekDay",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "DayOfWeek",
-						"type": "INT32"
-					},
-					{
-						"name": "DayOfMonth",
-						"type": "INT32"
-					},
-					{
-						"name": "DayOfQuarter",
-						"type": "INT32"
-					},
-					{
-						"name": "DayOfYear",
-						"type": "INT32"
-					},
-					{
-						"name": "DayName",
-						"type": "UTF8"
-					},
-					{
-						"name": "WeekOfYear",
-						"type": "INT32"
-					},
-					{
-						"name": "WeekName",
-						"type": "UTF8"
-					},
-					{
-						"name": "MonthOfYear",
-						"type": "INT32"
-					},
-					{
-						"name": "MonthName",
-						"type": "UTF8"
-					},
-					{
-						"name": "CalendarQuarter",
-						"type": "INT32"
-					},
-					{
-						"name": "CalendarQuarterName",
-						"type": "UTF8"
-					},
-					{
-						"name": "CalendarYear",
-						"type": "INT32"
-					},
-					{
-						"name": "FiscalMonth",
-						"type": "INT32"
-					},
-					{
-						"name": "FiscalMonthName",
-						"type": "UTF8"
-					},
-					{
-						"name": "FiscalQuarter",
-						"type": "INT32"
-					},
-					{
-						"name": "FiscalQuarterName",
-						"type": "UTF8"
-					},
-					{
-						"name": "FiscalYear",
-						"type": "INT32"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/deathssink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -333,73 +296,6 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "deaths.parquet",
-						"fileSystem": "uniondata"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "ID",
-						"type": "INT32"
-					},
-					{
-						"name": "Updated",
-						"type": "DATE"
-					},
-					{
-						"name": "Confirmed",
-						"type": "INT32"
-					},
-					{
-						"name": "Confirmed_Change",
-						"type": "INT32"
-					},
-					{
-						"name": "Latitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "Longitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "ISO2",
-						"type": "UTF8"
-					},
-					{
-						"name": "ISO3",
-						"type": "UTF8"
-					},
-					{
-						"name": "Country_Region",
-						"type": "UTF8"
-					},
-					{
-						"name": "load_time",
-						"type": "INT96"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/geographysink')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
 						"fileSystem": "uniondata"
 					},
 					"compressionCodec": "snappy"
@@ -966,20 +862,20 @@
 								"referenceName": "AzureCovid_19MetricsSink",
 								"type": "DatasetReference"
 							},
-							"name": "AZRecoveries"
+							"name": "AzureMetrics"
 						},
 						{
 							"dataset": {
 								"referenceName": "VMCovid19_MetricsSink",
 								"type": "DatasetReference"
 							},
-							"name": "VMRecoveries"
+							"name": "VMMetrics"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Recoveries",
+								"referenceName": "RecoveriesDataFlowSink",
 								"type": "DatasetReference"
 							},
 							"name": "Recoveriessink",
@@ -1018,7 +914,7 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> AZRecoveries",
+						"     partitionBy('hash', 1)) ~> AzureMetrics",
 						"source(output(",
 						"          Country as string,",
 						"          CountryCode as string,",
@@ -1029,8 +925,8 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> VMRecoveries",
-						"AZRecoveries, VMRecoveries union(byName: true,",
+						"     partitionBy('hash', 1)) ~> VMMetrics",
+						"AzureMetrics, VMMetrics union(byName: true,",
 						"     partitionBy('hash', 1))~> RecoveriesUnion",
 						"RecoveriesUnion select(mapColumn(",
 						"          ID,",
@@ -1075,7 +971,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]"
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
+				"[concat(variables('factoryId'), '/datasets/RecoveriesDataFlowSink')]"
 			]
 		},
 		{
@@ -1292,7 +1189,7 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet') ~> VMDatesSource",
-						"AzureCountrySource derive(Country = Country,",
+						"AzureCountrySource derive(CountryName = Country,",
 						"          CountryCode = CountryCode,",
 						"          Latitude = Latitude,",
 						"          Longitude = Longitude) ~> ACSource",
@@ -1344,24 +1241,24 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "cases",
-								"type": "DatasetReference"
-							},
-							"name": "azuresqlmetrics"
-						},
-						{
-							"dataset": {
 								"referenceName": "AzureCovid_19MetricsSink",
 								"type": "DatasetReference"
 							},
-							"name": "vmazuremetrics",
+							"name": "AzureMetrics"
+						},
+						{
+							"dataset": {
+								"referenceName": "VMCovid19_MetricsSink",
+								"type": "DatasetReference"
+							},
+							"name": "VMMetrics",
 							"description": "Import data from AzureCovid_19MetricsSink_"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "cases",
+								"referenceName": "CasesDataFlowSink",
 								"type": "DatasetReference"
 							},
 							"name": "casessink"
@@ -1376,23 +1273,6 @@
 						}
 					],
 					"scriptLines": [
-						"source(output(",
-						"          ID as integer,",
-						"          Updated as date,",
-						"          Confirmed as integer,",
-						"          Confirmed_Change as integer,",
-						"          Latitude as decimal(10,5),",
-						"          Longitude as decimal(10,5),",
-						"          ISO2 as string,",
-						"          ISO3 as string,",
-						"          Country_Region as string,",
-						"          load_time as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> azuresqlmetrics",
 						"source(output(",
 						"          ID as integer,",
 						"          Updated as date,",
@@ -1413,7 +1293,18 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> vmazuremetrics",
+						"     partitionBy('hash', 1)) ~> AzureMetrics",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
+						"     partitionBy('hash', 1)) ~> VMMetrics",
 						"unioncases select(mapColumn(",
 						"          ID,",
 						"          Updated,",
@@ -1428,7 +1319,7 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select3",
-						"vmazuremetrics, azuresqlmetrics union(byName: true)~> unioncases",
+						"VMMetrics, AzureMetrics union(byName: true)~> unioncases",
 						"select3 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -1481,7 +1372,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/cases')]"
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]"
 			]
 		},
 		{
@@ -1497,20 +1388,20 @@
 								"referenceName": "AzureDatesSink",
 								"type": "DatasetReference"
 							},
-							"name": "source1"
+							"name": "AzureDates"
 						},
 						{
 							"dataset": {
-								"referenceName": "AzureDatesSink",
+								"referenceName": "VMDatesSink",
 								"type": "DatasetReference"
 							},
-							"name": "source2"
+							"name": "VMDates"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Dates",
+								"referenceName": "DatesDataFlowSink",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -1551,35 +1442,19 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> source1",
+						"     partitionBy('hash', 1)) ~> AzureDates",
 						"source(output(",
-						"          DateKey as integer,",
-						"          FullDate as date,",
-						"          isWeekDay as boolean,",
-						"          DayOfWeek as integer,",
-						"          DayOfMonth as integer,",
-						"          DayOfQuarter as integer,",
-						"          DayOfYear as integer,",
-						"          DayName as string,",
-						"          WeekOfYear as integer,",
-						"          WeekName as string,",
-						"          MonthOfYear as integer,",
-						"          MonthName as string,",
-						"          CalendarQuarter as integer,",
-						"          CalendarQuarterName as string,",
-						"          CalendarYear as integer,",
-						"          FiscalMonth as integer,",
-						"          FiscalMonthName as string,",
-						"          FiscalQuarter as integer,",
-						"          FiscalQuarterName as string,",
-						"          FiscalYear as integer",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> source2",
-						"source1, source2 union(byName: true,",
+						"     partitionBy('hash', 1)) ~> VMDates",
+						"AzureDates, VMDates union(byName: true,",
 						"     partitionBy('hash', 1))~> union1",
 						"union1 select(mapColumn(",
 						"          DateKey,",
@@ -1625,7 +1500,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/VMDatesSink')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/deathsflow')]",
@@ -1640,14 +1517,14 @@
 								"referenceName": "VMCovid19_MetricsSink",
 								"type": "DatasetReference"
 							},
-							"name": "vmcovidmetrics"
+							"name": "VMMetrics"
 						},
 						{
 							"dataset": {
 								"referenceName": "AzureCovid_19MetricsSink",
 								"type": "DatasetReference"
 							},
-							"name": "sqlcovidmetrics"
+							"name": "AzureMetrics"
 						}
 					],
 					"sinks": [
@@ -1687,7 +1564,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet') ~> vmcovidmetrics",
+						"     format: 'parquet') ~> VMMetrics",
 						"source(output(",
 						"          ID as integer,",
 						"          Updated as date,",
@@ -1708,8 +1585,8 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> sqlcovidmetrics",
-						"vmcovidmetrics, sqlcovidmetrics union(byName: true)~> union1",
+						"     partitionBy('hash', 1)) ~> AzureMetrics",
+						"VMMetrics, AzureMetrics union(byName: true)~> union1",
 						"union1 select(mapColumn(",
 						"          ID,",
 						"          Updated,",
@@ -1768,20 +1645,20 @@
 								"referenceName": "AzureCountrySink",
 								"type": "DatasetReference"
 							},
-							"name": "AZgeography"
+							"name": "AzureCountry"
 						},
 						{
 							"dataset": {
-								"referenceName": "AzureCountrySink",
+								"referenceName": "VMCountrySink",
 								"type": "DatasetReference"
 							},
-							"name": "VMgeography"
+							"name": "VMCountry"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "geographysink",
+								"referenceName": "GeographyDataFlowSink",
 								"type": "DatasetReference"
 							},
 							"name": "geographysink"
@@ -1806,19 +1683,13 @@
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> AZgeography",
-						"source(output(",
-						"          Country as string,",
-						"          CountryCode as string,",
-						"          Latitude as decimal(10,5),",
-						"          Longitude as decimal(10,5)",
-						"     ),",
-						"     allowSchemaDrift: true,",
+						"     partitionBy('hash', 1)) ~> AzureCountry",
+						"source(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> VMgeography",
-						"AZgeography, VMgeography union(byName: true,",
+						"     partitionBy('hash', 1)) ~> VMCountry",
+						"AzureCountry, VMCountry union(byName: true,",
 						"     partitionBy('hash', 1))~> geographyunion",
 						"geographyunion select(partitionBy('hash', 1),",
 						"     skipDuplicateMapInputs: true,",
@@ -1849,7 +1720,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/geographysink')]"
+				"[concat(variables('factoryId'), '/datasets/VMCountrySink')]",
+				"[concat(variables('factoryId'), '/datasets/GeographyDataFlowSink')]"
 			]
 		},
 		{
