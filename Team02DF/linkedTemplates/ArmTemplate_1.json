@@ -725,11 +725,13 @@
 						"          FiscalYear as integer",
 						"     ),",
 						"     format: 'parquet',",
+						"     partitionFileNames:['Cases'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> CasesSink",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> CasesSink",
 						"SelectDeaths sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -745,6 +747,7 @@
 						"          load_time as timestamp",
 						"     ),",
 						"     format: 'parquet',",
+						"     partitionFileNames:['Deaths'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
@@ -765,11 +768,13 @@
 						"          load_time as timestamp",
 						"     ),",
 						"     format: 'parquet',",
+						"     partitionFileNames:['Recoveries'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> RecoveriesSink"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> RecoveriesSink"
 					]
 				}
 			},
@@ -780,7 +785,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/UnionizingData')]",
+			"name": "[concat(parameters('factoryName'), '/UnionzingEverything')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2641,7 +2646,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "UnionizingData",
+								"referenceName": "UnionzingEverything",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -2676,7 +2681,7 @@
 				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
 				"[concat(variables('factoryId'), '/datasets/VMDatesSource')]",
 				"[concat(variables('factoryId'), '/datasets/VMDatesSink')]",
-				"[concat(variables('factoryId'), '/dataflows/UnionizingData')]"
+				"[concat(variables('factoryId'), '/dataflows/UnionzingEverything')]"
 			]
 		}
 	]
