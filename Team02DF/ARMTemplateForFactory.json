@@ -2428,8 +2428,6 @@
 						"RecoveriesUnion select(mapColumn(",
 						"          ID,",
 						"          Updated,",
-						"          Confirmed,",
-						"          Confirmed_Change,",
 						"          Recovered,",
 						"          Recovered_Change,",
 						"          Latitude,",
