@@ -23,7 +23,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "CasesDataFlowSink",
+						"referenceName": "ODSCases",
 						"type": "DatasetReference"
 					},
 					"name": "casessink"
