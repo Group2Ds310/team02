@@ -1,5 +1,5 @@
 {
-	"name": "Recoveriesflow",
+	"name": "recoveriesflow",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
