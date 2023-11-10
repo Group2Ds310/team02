@@ -2459,12 +2459,13 @@
 						"          FiscalYear as integer",
 						"     ),",
 						"     format: 'parquet',",
-						"     partitionFileNames:['cases'],",
+						"     partitionFileNames:['cases.parquet'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> casessink"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> casessink"
 					]
 				}
 			},
