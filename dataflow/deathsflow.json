@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureCovid_19MetricsSource",
+						"referenceName": "AzureCovid_19MetricsSink",
 						"type": "DatasetReference"
 					},
 					"name": "sqlcovidmetrics"
@@ -75,8 +75,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table',",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
 				"     partitionBy('hash', 1)) ~> sqlcovidmetrics",
 				"vmcovidmetrics, sqlcovidmetrics union(byName: true)~> union1",
 				"union1 select(mapColumn(",
