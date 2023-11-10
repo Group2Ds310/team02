@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Recoveries",
+						"referenceName": "RecoveriesDataFlowSink",
 						"type": "DatasetReference"
 					},
 					"name": "Recoveriessink",
