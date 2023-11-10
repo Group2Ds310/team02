@@ -877,7 +877,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "UnionizingData",
+						"referenceName": "UnionzingEverything",
 						"type": "DataFlowReference"
 					},
 					"compute": {
