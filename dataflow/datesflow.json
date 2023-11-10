@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DatesDataFlowSink",
+						"referenceName": "ODSDates",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"

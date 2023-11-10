@@ -29,14 +29,14 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "DeathsDataFlowSink",
+						"referenceName": "ODSDeaths",
 						"type": "DatasetReference"
 					},
 					"name": "DeathsSink"
 				},
 				{
 					"dataset": {
-						"referenceName": "RecoveriesDataFlowSink",
+						"referenceName": "ODSRecoveries",
 						"type": "DatasetReference"
 					},
 					"name": "RecoveriesSink"

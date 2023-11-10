@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "DeathsDataFlowSink",
+						"referenceName": "ODSDeaths",
 						"type": "DatasetReference"
 					},
 					"name": "deathssink"

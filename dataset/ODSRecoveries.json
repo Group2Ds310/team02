@@ -1,5 +1,5 @@
 {
-	"name": "RecoveriesDataFlowSink",
+	"name": "ODSRecoveries",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

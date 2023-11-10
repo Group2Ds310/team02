@@ -1,5 +1,5 @@
 {
-	"name": "GeographyDataFlowSink",
+	"name": "ODSGeography",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

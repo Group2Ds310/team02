@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "GeographyDataFlowSink",
+						"referenceName": "ODSGeography",
 						"type": "DatasetReference"
 					},
 					"name": "geographysink"

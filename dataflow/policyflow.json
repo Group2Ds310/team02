@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "PolicyDataFlowSInk",
+						"referenceName": "ODSPolicy",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"

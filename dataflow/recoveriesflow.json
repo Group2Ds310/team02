@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "RecoveriesDataFlowSink",
+						"referenceName": "ODSRecoveries",
 						"type": "DatasetReference"
 					},
 					"name": "Recoveriessink",

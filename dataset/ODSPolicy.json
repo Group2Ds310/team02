@@ -1,5 +1,5 @@
 {
-	"name": "PolicyDataFlowSInk",
+	"name": "ODSPolicy",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage3",
