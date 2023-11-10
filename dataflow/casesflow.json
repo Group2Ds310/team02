@@ -17,7 +17,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "vmazuremetrics",
-					"description": "Import data from AzureCovid_19MetricsSink "
+					"description": "Import data from AzureCovid_19MetricsSink_"
 				}
 			],
 			"sinks": [
