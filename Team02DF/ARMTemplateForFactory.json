@@ -1300,7 +1300,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "CosmosDB",
+						"fileName": "CosmosDB.parquet",
 						"fileSystem": "cosmosdb"
 					},
 					"compressionCodec": "snappy"
