@@ -1,5 +1,5 @@
 {
-	"name": "Dates",
+	"name": "DatesDataFlowSink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage3",
