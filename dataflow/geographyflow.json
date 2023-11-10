@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureCountrySource",
+						"referenceName": "AzureCountrySink",
 						"type": "DatasetReference"
 					},
 					"name": "AZgeography"
@@ -45,10 +45,16 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table',",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
 				"     partitionBy('hash', 1)) ~> AZgeography",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          Country as string,",
+				"          CountryCode as string,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5)",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",

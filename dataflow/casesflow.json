@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "azuresqlmetric",
+						"referenceName": "cases",
 						"type": "DatasetReference"
 					},
 					"name": "azuresqlmetrics"
@@ -43,10 +43,6 @@
 				"          Updated as date,",
 				"          Confirmed as integer,",
 				"          Confirmed_Change as integer,",
-				"          Deaths as integer,",
-				"          Deaths_Change as integer,",
-				"          Recovered as integer,",
-				"          Recovered_Change as integer,",
 				"          Latitude as decimal(10,5),",
 				"          Longitude as decimal(10,5),",
 				"          ISO2 as string,",
@@ -56,8 +52,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table',",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
 				"     partitionBy('hash', 1)) ~> azuresqlmetrics",
 				"source(output(",
 				"          ID as integer,",

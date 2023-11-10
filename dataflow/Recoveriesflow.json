@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureCovid_19MetricsSource",
+						"referenceName": "AzureCovid_19MetricsSink",
 						"type": "DatasetReference"
 					},
 					"name": "AZRecoveries"
@@ -59,8 +59,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table',",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
 				"     partitionBy('hash', 1)) ~> AZRecoveries",
 				"source(output(",
 				"          Country as string,",
