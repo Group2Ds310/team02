@@ -9,14 +9,14 @@
 						"referenceName": "AzureCovid_19MetricsSink",
 						"type": "DatasetReference"
 					},
-					"name": "AZRecoveries"
+					"name": "AzureMetrics"
 				},
 				{
 					"dataset": {
 						"referenceName": "VMCovid19_MetricsSink",
 						"type": "DatasetReference"
 					},
-					"name": "VMRecoveries"
+					"name": "VMMetrics"
 				}
 			],
 			"sinks": [
@@ -61,7 +61,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> AZRecoveries",
+				"     partitionBy('hash', 1)) ~> AzureMetrics",
 				"source(output(",
 				"          Country as string,",
 				"          CountryCode as string,",
@@ -72,8 +72,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> VMRecoveries",
-				"AZRecoveries, VMRecoveries union(byName: true,",
+				"     partitionBy('hash', 1)) ~> VMMetrics",
+				"AzureMetrics, VMMetrics union(byName: true,",
 				"     partitionBy('hash', 1))~> RecoveriesUnion",
 				"RecoveriesUnion select(mapColumn(",
 				"          ID,",

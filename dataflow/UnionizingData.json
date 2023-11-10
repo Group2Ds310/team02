@@ -210,7 +210,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> VMDatesSource",
-				"AzureCountrySource derive(Country = Country,",
+				"AzureCountrySource derive(CountryName = Country,",
 				"          CountryCode = CountryCode,",
 				"          Latitude = Latitude,",
 				"          Longitude = Longitude) ~> ACSource",

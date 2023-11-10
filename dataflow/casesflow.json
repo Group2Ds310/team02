@@ -6,17 +6,17 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "CasesDataFlowSink",
-						"type": "DatasetReference"
-					},
-					"name": "azuresqlmetrics"
-				},
-				{
-					"dataset": {
 						"referenceName": "AzureCovid_19MetricsSink",
 						"type": "DatasetReference"
 					},
-					"name": "vmazuremetrics",
+					"name": "AzureMetrics"
+				},
+				{
+					"dataset": {
+						"referenceName": "VMCovid19_MetricsSink",
+						"type": "DatasetReference"
+					},
+					"name": "VMMetrics",
 					"description": "Import data from AzureCovid_19MetricsSink_"
 				}
 			],
@@ -38,44 +38,22 @@
 				}
 			],
 			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     partitionBy('hash', 1)) ~> AzureMetrics",
 				"source(output(",
-				"          ID as integer,",
-				"          Updated as date,",
-				"          Confirmed as integer,",
-				"          Confirmed_Change as integer,",
+				"          Country as string,",
+				"          CountryCode as string,",
 				"          Latitude as decimal(10,5),",
-				"          Longitude as decimal(10,5),",
-				"          ISO2 as string,",
-				"          ISO3 as string,",
-				"          Country_Region as string,",
-				"          load_time as timestamp",
+				"          Longitude as decimal(10,5)",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> azuresqlmetrics",
-				"source(output(",
-				"          ID as integer,",
-				"          Updated as date,",
-				"          Confirmed as integer,",
-				"          Confirmed_Change as integer,",
-				"          Deaths as integer,",
-				"          Deaths_Change as integer,",
-				"          Recovered as integer,",
-				"          Recovered_Change as integer,",
-				"          Latitude as decimal(10,5),",
-				"          Longitude as decimal(10,5),",
-				"          ISO2 as string,",
-				"          ISO3 as string,",
-				"          Country_Region as string,",
-				"          load_time as timestamp",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> vmazuremetrics",
+				"     partitionBy('hash', 1)) ~> VMMetrics",
 				"unioncases select(mapColumn(",
 				"          ID,",
 				"          Updated,",
@@ -90,7 +68,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
-				"vmazuremetrics, azuresqlmetrics union(byName: true)~> unioncases",
+				"VMMetrics, AzureMetrics union(byName: true)~> unioncases",
 				"select3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",

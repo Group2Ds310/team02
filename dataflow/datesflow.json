@@ -9,20 +9,20 @@
 						"referenceName": "AzureDatesSink",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "AzureDates"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureDatesSink",
+						"referenceName": "VMDatesSink",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "VMDates"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Dates",
+						"referenceName": "DatesDataFlowSink",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -63,35 +63,19 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> source1",
+				"     partitionBy('hash', 1)) ~> AzureDates",
 				"source(output(",
-				"          DateKey as integer,",
-				"          FullDate as date,",
-				"          isWeekDay as boolean,",
-				"          DayOfWeek as integer,",
-				"          DayOfMonth as integer,",
-				"          DayOfQuarter as integer,",
-				"          DayOfYear as integer,",
-				"          DayName as string,",
-				"          WeekOfYear as integer,",
-				"          WeekName as string,",
-				"          MonthOfYear as integer,",
-				"          MonthName as string,",
-				"          CalendarQuarter as integer,",
-				"          CalendarQuarterName as string,",
-				"          CalendarYear as integer,",
-				"          FiscalMonth as integer,",
-				"          FiscalMonthName as string,",
-				"          FiscalQuarter as integer,",
-				"          FiscalQuarterName as string,",
-				"          FiscalYear as integer",
+				"          Country as string,",
+				"          CountryCode as string,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5)",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> source2",
-				"source1, source2 union(byName: true,",
+				"     partitionBy('hash', 1)) ~> VMDates",
+				"AzureDates, VMDates union(byName: true,",
 				"     partitionBy('hash', 1))~> union1",
 				"union1 select(mapColumn(",
 				"          DateKey,",

@@ -9,20 +9,20 @@
 						"referenceName": "AzureCountrySink",
 						"type": "DatasetReference"
 					},
-					"name": "AZgeography"
+					"name": "AzureCountry"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureCountrySink",
+						"referenceName": "VMCountrySink",
 						"type": "DatasetReference"
 					},
-					"name": "VMgeography"
+					"name": "VMCountry"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "geographysink",
+						"referenceName": "GeographyDataFlowSink",
 						"type": "DatasetReference"
 					},
 					"name": "geographysink"
@@ -47,19 +47,13 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> AZgeography",
-				"source(output(",
-				"          Country as string,",
-				"          CountryCode as string,",
-				"          Latitude as decimal(10,5),",
-				"          Longitude as decimal(10,5)",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"     partitionBy('hash', 1)) ~> AzureCountry",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> VMgeography",
-				"AZgeography, VMgeography union(byName: true,",
+				"     partitionBy('hash', 1)) ~> VMCountry",
+				"AzureCountry, VMCountry union(byName: true,",
 				"     partitionBy('hash', 1))~> geographyunion",
 				"geographyunion select(partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: true,",

@@ -9,14 +9,14 @@
 						"referenceName": "VMCovid19_MetricsSink",
 						"type": "DatasetReference"
 					},
-					"name": "vmcovidmetrics"
+					"name": "VMMetrics"
 				},
 				{
 					"dataset": {
 						"referenceName": "AzureCovid_19MetricsSink",
 						"type": "DatasetReference"
 					},
-					"name": "sqlcovidmetrics"
+					"name": "AzureMetrics"
 				}
 			],
 			"sinks": [
@@ -56,7 +56,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> vmcovidmetrics",
+				"     format: 'parquet') ~> VMMetrics",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",
@@ -77,8 +77,8 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet',",
-				"     partitionBy('hash', 1)) ~> sqlcovidmetrics",
-				"vmcovidmetrics, sqlcovidmetrics union(byName: true)~> union1",
+				"     partitionBy('hash', 1)) ~> AzureMetrics",
+				"VMMetrics, AzureMetrics union(byName: true)~> union1",
 				"union1 select(mapColumn(",
 				"          ID,",
 				"          Updated,",
