@@ -1,5 +1,5 @@
 {
-	"name": "Recoveries",
+	"name": "RecoveriesDataFlowSink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",
