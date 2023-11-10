@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "cases",
+						"referenceName": "CasesDataFlowSink",
 						"type": "DatasetReference"
 					},
 					"name": "azuresqlmetrics"
@@ -23,7 +23,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "cases",
+						"referenceName": "CasesDataFlowSink",
 						"type": "DatasetReference"
 					},
 					"name": "casessink"
