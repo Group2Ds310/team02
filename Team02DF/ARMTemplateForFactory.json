@@ -1037,6 +1037,53 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipeline3')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "deaths",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "deathsflow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"vmcovidmetrics": {},
+									"sqlcovidmetrics": {},
+									"deathssink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/deathsflow')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureCountrySink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1958,6 +2005,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "deaths.parquet",
 						"fileSystem": "uniondata"
 					},
 					"compressionCodec": "snappy"
@@ -2545,7 +2593,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"name": "[concat(parameters('factoryName'), '/deathsflow')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
