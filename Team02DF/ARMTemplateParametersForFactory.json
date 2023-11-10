@@ -14,6 +14,9 @@
 		"AzureDataLakeStorage2_accountKey": {
 			"value": ""
 		},
+		"AzureDataLakeStorage3_accountKey": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
@@ -33,6 +36,9 @@
 			"value": "https://team02sa.dfs.core.windows.net/"
 		},
 		"AzureDataLakeStorage2_properties_typeProperties_url": {
+			"value": "https://team02sa.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorage3_properties_typeProperties_url": {
 			"value": "https://team02sa.dfs.core.windows.net/"
 		},
 		"Team2_GitHub_properties_typeProperties_username": {

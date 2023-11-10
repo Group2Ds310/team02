@@ -17,6 +17,94 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/VMCovid19_MetricsSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dbo.Covid19_Metrics.parquet",
+						"fileSystem": "azurevm"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "Country",
+						"type": "UTF8"
+					},
+					{
+						"name": "CountryCode",
+						"type": "UTF8"
+					},
+					{
+						"name": "Latitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VMDatesSink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dbo.Dates.parquet",
+						"fileSystem": "azurevm"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "Country",
+						"type": "UTF8"
+					},
+					{
+						"name": "CountryCode",
+						"type": "UTF8"
+					},
+					{
+						"name": "Latitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/azuresqlmetric')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -419,6 +507,133 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Recoveriesflow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureCovid_19MetricsSource",
+								"type": "DatasetReference"
+							},
+							"name": "AZRecoveries"
+						},
+						{
+							"dataset": {
+								"referenceName": "VMCovid19_MetricsSink",
+								"type": "DatasetReference"
+							},
+							"name": "VMRecoveries"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Recoveries",
+								"type": "DatasetReference"
+							},
+							"name": "Recoveriessink",
+							"rejectedDataLinkedService": {
+								"referenceName": "AzureDataLakeStorage1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "RecoveriesUnion"
+						},
+						{
+							"name": "Recoveriesselect"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ID as integer,",
+						"          Updated as date,",
+						"          Confirmed as integer,",
+						"          Confirmed_Change as integer,",
+						"          Deaths as integer,",
+						"          Deaths_Change as integer,",
+						"          Recovered as integer,",
+						"          Recovered_Change as integer,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5),",
+						"          ISO2 as string,",
+						"          ISO3 as string,",
+						"          Country_Region as string,",
+						"          load_time as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table',",
+						"     partitionBy('hash', 1)) ~> AZRecoveries",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
+						"     partitionBy('hash', 1)) ~> VMRecoveries",
+						"AZRecoveries, VMRecoveries union(byName: true,",
+						"     partitionBy('hash', 1))~> RecoveriesUnion",
+						"RecoveriesUnion select(mapColumn(",
+						"          ID,",
+						"          Updated,",
+						"          Confirmed,",
+						"          Confirmed_Change,",
+						"          Recovered,",
+						"          Recovered_Change,",
+						"          Latitude,",
+						"          Longitude,",
+						"          ISO2,",
+						"          ISO3,",
+						"          Country_Region,",
+						"          load_time,",
+						"          Country,",
+						"          CountryCode",
+						"     ),",
+						"     partitionBy('hash', 1),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> Recoveriesselect",
+						"Recoveriesselect sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ID as integer,",
+						"          Updated as date,",
+						"          Confirmed as integer,",
+						"          Confirmed_Change as integer,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5),",
+						"          ISO2 as string,",
+						"          ISO3 as string,",
+						"          Country_Region as string,",
+						"          load_time as timestamp",
+						"     ),",
+						"     format: 'parquet',",
+						"     partitionFileNames:['Recoveries.parquet'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> Recoveriessink"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/UnionizingData')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -668,7 +883,10 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
+				"[concat(variables('factoryId'), '/datasets/VMDatesSink')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/casesflow')]",
@@ -691,7 +909,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "vmazuremetrics",
-							"description": "Import data from AzureCovid_19MetricsSink "
+							"description": "Import data from AzureCovid_19MetricsSink_"
 						}
 					],
 					"sinks": [
@@ -949,6 +1167,7 @@
 				}
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
 				"[concat(variables('factoryId'), '/datasets/deathssink')]"
 			]
 		},
@@ -1878,7 +2097,9 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/VMCountrySource')]",
 				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSource')]",
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
 				"[concat(variables('factoryId'), '/datasets/VMDatesSource')]",
+				"[concat(variables('factoryId'), '/datasets/VMDatesSink')]",
 				"[concat(variables('factoryId'), '/dataflows/UnionizingData')]"
 			]
 		},
@@ -1976,6 +2197,53 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/deathsflow')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline4')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Recoveriesflow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AZRecoveries": {},
+									"VMRecoveries": {},
+									"Recoveriessink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Recoveriesflow')]"
 			]
 		}
 	]
