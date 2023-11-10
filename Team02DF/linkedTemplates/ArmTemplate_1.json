@@ -17,6 +17,73 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ParquetVMCountry')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dbo.Country.parquet",
+						"fileSystem": "azurevm"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetVMDates')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "dbo.Dates.parquet",
+						"fileSystem": "azurevm"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "Country",
+						"type": "UTF8"
+					},
+					{
+						"name": "CountryCode",
+						"type": "UTF8"
+					},
+					{
+						"name": "Latitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "Longitude",
+						"type": "DECIMAL",
+						"precision": 10,
+						"scale": 5
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ParquetVMMetrics')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -55,141 +122,6 @@
 						"type": "DECIMAL",
 						"precision": 10,
 						"scale": 5
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PolicyDataFlowSInk')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage3",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "uniondata"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "ID",
-						"type": "INT32"
-					},
-					{
-						"name": "Updated",
-						"type": "DATE"
-					},
-					{
-						"name": "Confirmed",
-						"type": "INT32"
-					},
-					{
-						"name": "Confirmed_Change",
-						"type": "INT32"
-					},
-					{
-						"name": "Latitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "Longitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "ISO2",
-						"type": "UTF8"
-					},
-					{
-						"name": "ISO3",
-						"type": "UTF8"
-					},
-					{
-						"name": "Country_Region",
-						"type": "UTF8"
-					},
-					{
-						"name": "load_time",
-						"type": "INT96"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RecoveriesDataFlowSink')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Recoveries.parquet",
-						"fileSystem": "uniondata"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "ID",
-						"type": "INT32"
-					},
-					{
-						"name": "Updated",
-						"type": "DATE"
-					},
-					{
-						"name": "Confirmed",
-						"type": "INT32"
-					},
-					{
-						"name": "Confirmed_Change",
-						"type": "INT32"
-					},
-					{
-						"name": "Latitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "Longitude",
-						"type": "DECIMAL",
-						"precision": 10,
-						"scale": 5
-					},
-					{
-						"name": "ISO2",
-						"type": "UTF8"
-					},
-					{
-						"name": "ISO3",
-						"type": "UTF8"
-					},
-					{
-						"name": "Country_Region",
-						"type": "UTF8"
-					},
-					{
-						"name": "load_time",
-						"type": "INT96"
 					}
 				]
 			},
@@ -709,14 +641,14 @@
 						},
 						{
 							"dataset": {
-								"referenceName": "DeathsDataFlowSink",
+								"referenceName": "ODSDeaths",
 								"type": "DatasetReference"
 							},
 							"name": "DeathsSink"
 						},
 						{
 							"dataset": {
-								"referenceName": "RecoveriesDataFlowSink",
+								"referenceName": "ODSRecoveries",
 								"type": "DatasetReference"
 							},
 							"name": "RecoveriesSink"
@@ -916,8 +848,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
-				"[concat(variables('factoryId'), '/datasets/RecoveriesDataFlowSink')]"
+				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]"
 			]
 		},
 		{
@@ -1171,7 +1102,9 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]"
+				"[concat(variables('factoryId'), '/datasets/ParquetVMCountry')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetVMDates')]"
 			]
 		},
 		{
@@ -1344,7 +1277,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "DatesDataFlowSink",
+								"referenceName": "ODSDates",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -1459,7 +1392,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParquetVMDates')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/deathsflow')]",
@@ -1487,7 +1422,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "DeathsDataFlowSink",
+								"referenceName": "ODSDeaths",
 								"type": "DatasetReference"
 							},
 							"name": "deathssink"
@@ -1614,7 +1549,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "GeographyDataFlowSink",
+								"referenceName": "ODSGeography",
 								"type": "DatasetReference"
 							},
 							"name": "geographysink"
@@ -1675,7 +1610,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParquetVMCountry')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/policyflow')]",
@@ -1696,7 +1633,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "PolicyDataFlowSInk",
+								"referenceName": "ODSPolicy",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -1749,9 +1686,7 @@
 					]
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/PolicyDataFlowSInk')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/recoveriesflow')]",
@@ -1779,7 +1714,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "RecoveriesDataFlowSink",
+								"referenceName": "ODSRecoveries",
 								"type": "DatasetReference"
 							},
 							"name": "Recoveriessink",
@@ -1875,8 +1810,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
-				"[concat(variables('factoryId'), '/datasets/RecoveriesDataFlowSink')]"
+				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]"
 			]
 		},
 		{
@@ -2804,9 +2738,11 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceVMCountry')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetVMCountry')]",
 				"[concat(variables('factoryId'), '/datasets/SourceVMMetrics')]",
 				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
 				"[concat(variables('factoryId'), '/datasets/SourceVMDates')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetVMDates')]",
 				"[concat(variables('factoryId'), '/datasets/SourceCDBPolicy')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAZCountry')]",
 				"[concat(variables('factoryId'), '/datasets/SourceAZMetrics')]",
