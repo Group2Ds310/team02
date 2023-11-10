@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "VMCovid19_MetricsSource",
+						"referenceName": "VMCovid19_MetricsSink",
 						"type": "DatasetReference"
 					},
 					"name": "VMRecoveries"
@@ -70,8 +70,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table',",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
 				"     partitionBy('hash', 1)) ~> VMRecoveries",
 				"AZRecoveries, VMRecoveries union(byName: true,",
 				"     partitionBy('hash', 1))~> RecoveriesUnion",
@@ -109,7 +109,7 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     format: 'parquet',",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['Recoveries.parquet'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
