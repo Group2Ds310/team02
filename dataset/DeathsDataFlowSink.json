@@ -1,5 +1,5 @@
 {
-	"name": "deathssink",
+	"name": "DeathsDataFlowSink",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

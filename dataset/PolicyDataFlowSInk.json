@@ -1,5 +1,5 @@
 {
-	"name": "policyparquets",
+	"name": "PolicyDataFlowSInk",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage3",
