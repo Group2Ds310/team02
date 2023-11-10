@@ -780,132 +780,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Recoveriesflow')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureCovid_19MetricsSink",
-								"type": "DatasetReference"
-							},
-							"name": "AzureMetrics"
-						},
-						{
-							"dataset": {
-								"referenceName": "VMCovid19_MetricsSink",
-								"type": "DatasetReference"
-							},
-							"name": "VMMetrics"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "RecoveriesDataFlowSink",
-								"type": "DatasetReference"
-							},
-							"name": "Recoveriessink",
-							"rejectedDataLinkedService": {
-								"referenceName": "AzureDataLakeStorage1",
-								"type": "LinkedServiceReference"
-							}
-						}
-					],
-					"transformations": [
-						{
-							"name": "RecoveriesUnion"
-						},
-						{
-							"name": "Recoveriesselect"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          ID as integer,",
-						"          Updated as date,",
-						"          Confirmed as integer,",
-						"          Confirmed_Change as integer,",
-						"          Deaths as integer,",
-						"          Deaths_Change as integer,",
-						"          Recovered as integer,",
-						"          Recovered_Change as integer,",
-						"          Latitude as decimal(10,5),",
-						"          Longitude as decimal(10,5),",
-						"          ISO2 as string,",
-						"          ISO3 as string,",
-						"          Country_Region as string,",
-						"          load_time as timestamp",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> AzureMetrics",
-						"source(output(",
-						"          Country as string,",
-						"          CountryCode as string,",
-						"          Latitude as decimal(10,5),",
-						"          Longitude as decimal(10,5)",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet',",
-						"     partitionBy('hash', 1)) ~> VMMetrics",
-						"AzureMetrics, VMMetrics union(byName: true,",
-						"     partitionBy('hash', 1))~> RecoveriesUnion",
-						"RecoveriesUnion select(mapColumn(",
-						"          ID,",
-						"          Updated,",
-						"          Recovered,",
-						"          Recovered_Change,",
-						"          Latitude,",
-						"          Longitude,",
-						"          ISO2,",
-						"          ISO3,",
-						"          Country_Region,",
-						"          load_time,",
-						"          Country,",
-						"          CountryCode",
-						"     ),",
-						"     partitionBy('hash', 1),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> Recoveriesselect",
-						"Recoveriesselect sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          ID as integer,",
-						"          Updated as date,",
-						"          Confirmed as integer,",
-						"          Confirmed_Change as integer,",
-						"          Latitude as decimal(10,5),",
-						"          Longitude as decimal(10,5),",
-						"          ISO2 as string,",
-						"          ISO3 as string,",
-						"          Country_Region as string,",
-						"          load_time as timestamp",
-						"     ),",
-						"     format: 'parquet',",
-						"     partitionFileNames:['Recoveries.parquet'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> Recoveriessink"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
-				"[concat(variables('factoryId'), '/datasets/RecoveriesDataFlowSink')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/UnionizingData')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1744,6 +1618,132 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/PolicyDataFlowSInk')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/recoveriesflow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureCovid_19MetricsSink",
+								"type": "DatasetReference"
+							},
+							"name": "AzureMetrics"
+						},
+						{
+							"dataset": {
+								"referenceName": "VMCovid19_MetricsSink",
+								"type": "DatasetReference"
+							},
+							"name": "VMMetrics"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "RecoveriesDataFlowSink",
+								"type": "DatasetReference"
+							},
+							"name": "Recoveriessink",
+							"rejectedDataLinkedService": {
+								"referenceName": "AzureDataLakeStorage1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "RecoveriesUnion"
+						},
+						{
+							"name": "Recoveriesselect"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ID as integer,",
+						"          Updated as date,",
+						"          Confirmed as integer,",
+						"          Confirmed_Change as integer,",
+						"          Deaths as integer,",
+						"          Deaths_Change as integer,",
+						"          Recovered as integer,",
+						"          Recovered_Change as integer,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5),",
+						"          ISO2 as string,",
+						"          ISO3 as string,",
+						"          Country_Region as string,",
+						"          load_time as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
+						"     partitionBy('hash', 1)) ~> AzureMetrics",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'parquet',",
+						"     partitionBy('hash', 1)) ~> VMMetrics",
+						"AzureMetrics, VMMetrics union(byName: true,",
+						"     partitionBy('hash', 1))~> RecoveriesUnion",
+						"RecoveriesUnion select(mapColumn(",
+						"          ID,",
+						"          Updated,",
+						"          Recovered,",
+						"          Recovered_Change,",
+						"          Latitude,",
+						"          Longitude,",
+						"          ISO2,",
+						"          ISO3,",
+						"          Country_Region,",
+						"          load_time,",
+						"          Country,",
+						"          CountryCode",
+						"     ),",
+						"     partitionBy('hash', 1),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> Recoveriesselect",
+						"Recoveriesselect sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          ID as integer,",
+						"          Updated as date,",
+						"          Confirmed as integer,",
+						"          Confirmed_Change as integer,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5),",
+						"          ISO2 as string,",
+						"          ISO3 as string,",
+						"          Country_Region as string,",
+						"          load_time as timestamp",
+						"     ),",
+						"     format: 'parquet',",
+						"     partitionFileNames:['Recoveries.parquet'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> Recoveriessink"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/VMCovid19_MetricsSink')]",
+				"[concat(variables('factoryId'), '/datasets/RecoveriesDataFlowSink')]"
 			]
 		},
 		{
