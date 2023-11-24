@@ -2480,15 +2480,9 @@
 				"type": "SqlServer",
 				"typeProperties": {
 					"connectionString": "[parameters('SqlServer1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntime1",
-					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Team2_GitHub')]",
@@ -3488,10 +3482,13 @@
 					],
 					"transformations": [
 						{
-							"name": "geographyunion"
+							"name": "geoselection"
 						},
 						{
-							"name": "geoselection"
+							"name": "countryinnerjoin"
+						},
+						{
+							"name": "filternullvalue"
 						}
 					],
 					"scriptLines": [
@@ -3506,17 +3503,37 @@
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> AzureCountry",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> VMCountry",
-						"AzureCountry, VMCountry union(byName: true,",
-						"     partitionBy('hash', 1))~> geographyunion",
-						"geographyunion select(partitionBy('hash', 1),",
+						"countryinnerjoin select(mapColumn(",
+						"          Country = AzureCountry@Country,",
+						"          CountryCode = AzureCountry@CountryCode,",
+						"          Latitude = AzureCountry@Latitude,",
+						"          Longitude = AzureCountry@Longitude,",
+						"          Country = VMCountry@Country,",
+						"          CountryCode = VMCountry@CountryCode,",
+						"          Latitude = VMCountry@Latitude,",
+						"          Longitude = VMCountry@Longitude",
+						"     ),",
+						"     partitionBy('hash', 1),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> geoselection",
-						"geoselection sink(allowSchemaDrift: true,",
+						"AzureCountry, VMCountry join(AzureCountry@CountryCode == VMCountry@CountryCode,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> countryinnerjoin",
+						"geoselection filter(contains(array(toString(columns())),!isNull(Latitude))) ~> filternullvalue",
+						"filternullvalue sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          ID as integer,",

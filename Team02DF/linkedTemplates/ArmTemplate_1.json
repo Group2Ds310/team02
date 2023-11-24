@@ -6,16 +6,34 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "Team02DF"
-		},
-		"SqlServer1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetAllData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "uniondata"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ParquetVMCountry')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -466,23 +484,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"connectionString": "[parameters('SqlServer1_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "integrationRuntime1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/SourceVMCountry')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -520,9 +521,7 @@
 					"table": "Country"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SourceVMDates')]",
@@ -562,9 +561,7 @@
 					"table": "Dates"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SourceVMMetrics')]",
@@ -604,9 +601,7 @@
 					"table": "Covid19_Metrics"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CasesDeathsRecoveriesFlow')]",
@@ -1104,7 +1099,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ParquetVMCountry')]",
 				"[concat(variables('factoryId'), '/datasets/ParquetVMMetrics')]",
-				"[concat(variables('factoryId'), '/datasets/ParquetVMDates')]"
+				"[concat(variables('factoryId'), '/datasets/ParquetVMDates')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetAllData')]"
 			]
 		},
 		{
@@ -1551,10 +1547,13 @@
 					],
 					"transformations": [
 						{
-							"name": "geographyunion"
+							"name": "geoselection"
 						},
 						{
-							"name": "geoselection"
+							"name": "countryinnerjoin"
+						},
+						{
+							"name": "filternullvalue"
 						}
 					],
 					"scriptLines": [
@@ -1569,17 +1568,37 @@
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> AzureCountry",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          Country as string,",
+						"          CountryCode as string,",
+						"          Latitude as decimal(10,5),",
+						"          Longitude as decimal(10,5)",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
 						"     format: 'parquet',",
 						"     partitionBy('hash', 1)) ~> VMCountry",
-						"AzureCountry, VMCountry union(byName: true,",
-						"     partitionBy('hash', 1))~> geographyunion",
-						"geographyunion select(partitionBy('hash', 1),",
+						"countryinnerjoin select(mapColumn(",
+						"          Country = AzureCountry@Country,",
+						"          CountryCode = AzureCountry@CountryCode,",
+						"          Latitude = AzureCountry@Latitude,",
+						"          Longitude = AzureCountry@Longitude,",
+						"          Country = VMCountry@Country,",
+						"          CountryCode = VMCountry@CountryCode,",
+						"          Latitude = VMCountry@Latitude,",
+						"          Longitude = VMCountry@Longitude",
+						"     ),",
+						"     partitionBy('hash', 1),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> geoselection",
-						"geoselection sink(allowSchemaDrift: true,",
+						"AzureCountry, VMCountry join(AzureCountry@CountryCode == VMCountry@CountryCode,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> countryinnerjoin",
+						"geoselection filter(contains(array(toString(columns())),!isNull(Latitude))) ~> filternullvalue",
+						"filternullvalue sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          ID as integer,",
