@@ -36,7 +36,7 @@
 					"name": "countryinnerjoin"
 				},
 				{
-					"name": "filter1"
+					"name": "filternullvalue"
 				}
 			],
 			"scriptLines": [
@@ -80,8 +80,8 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> countryinnerjoin",
-				"geoselection filter(contains(array(toString(columns())),!isNull(Latitude))) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"geoselection filter(contains(array(toString(columns())),!isNull(Latitude))) ~> filternullvalue",
+				"filternullvalue sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          ID as integer,",
